@@ -1,0 +1,42 @@
+image: node:8
+
+stages:
+  - ver
+  - init
+  # - tests
+  - deploy
+
+ver:
+  stage: ver
+  script:
+    - node --version
+    - whoami
+init:
+  stage: init
+  script:
+    - rm -rf node-modules
+    - npm install
+# run_tests:
+#   stage: tests
+#   script:
+#     - npm test
+
+deploy_staging:
+  stage: deploy
+  script:
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/crossdash-claims-fed.git
+    - git push heroku HEAD:master
+    - echo "Deployed to staging server"
+  environment:
+  only:
+    - master
+# deploy_production:
+#   stage: deploy
+#   script:
+#     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/connect-cxm-fed.git
+#     - git push heroku master
+#     - echo "Deployed to production server"
+#   environment:
+#   when: manual
+#   only:
+#     - master

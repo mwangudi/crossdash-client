@@ -1,0 +1,3 @@
+build/*.js
+bin/*.js
+public/*.js
